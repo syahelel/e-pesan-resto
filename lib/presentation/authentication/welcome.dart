@@ -1,6 +1,6 @@
-import 'package:e_pesan_resto/pages/loginpage.dart';
-import 'package:e_pesan_resto/pages/registerpage.dart';
+import 'package:e_pesan_resto/theme/font_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 
 class Welcome extends StatelessWidget {
@@ -15,53 +15,39 @@ class Welcome extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Logo Section
-              Container(
-                width: 150,
-                height: 150,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Image.asset(
-                  'assets/images/chamber_logo.png',
+             Image.asset(
+                  'assets/images/display_logos.png',
                   fit: BoxFit.contain,
+                  width: 300,
+                  height: 300,
                 ),
-              ),
               const SizedBox(height: 20),
 
               // Welcome Text
-              const Text(
-                "Welcome to CO’Z Resto",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+              Text(
+                "Welcome to CHEF FOOD",
+                style: bold20.copyWith(
+                  fontSize: 24,
+                )
               ),
               const SizedBox(height: 8),
 
               // Subtitle Text
-              const Text(
+              Text(
                 "Hidangan Lezat Berkualitas dan Bergizi",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                ),
+                style: regular14.copyWith(
+                  color: Colors.grey
+                )
               ),
               const SizedBox(height: 40),
 
               // Register Button
               SizedBox(
-                width: 250,
+                height: 50,
+                width: 300,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Add action for register button
-                    Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RegisterPage()),
-                        );
+                    Get.toNamed('/register');
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.orange,
@@ -69,33 +55,35 @@ class Welcome extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     "Register",
-                    style: TextStyle(
+                    style: regular14.copyWith(
                       color: Colors.white,
-                      fontSize: 16),
+                      fontSize: 16
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 15),
 
               // Login Button
               SizedBox(
-                width: 250,
+                height: 50,
+                width: 300,
                 child: OutlinedButton(
                   onPressed: () {
-                    // Navigasi ke halaman Login
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Loginpage()));
-                    
+                    Get.toNamed('/login');
                   },
                   style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     "Login",
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: regular14.copyWith(
+                      fontSize: 16
+                    ),
                   ),
                 ),
               ),
