@@ -80,7 +80,6 @@ class ApiServiceImpl implements ApiService {
 
      if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
-      print('body: $body');
       // return ResponseModelList.fromJson(body);
       return ResponseModel.fromJsonList(body, (result) => ProductModel.fromJsonList(result));
     } else if (response.statusCode == 300) {

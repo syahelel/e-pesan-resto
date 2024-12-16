@@ -22,6 +22,7 @@ class CategoriesTile extends StatelessWidget {
         GestureDetector(
           onTap: () {
             cc.changeCategoryItem(id);
+            cc.onCategoryChanged();
           },
           child: Obx(
             () {

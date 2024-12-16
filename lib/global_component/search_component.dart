@@ -10,7 +10,7 @@ class SearchComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      onSubmitted: onTextCompleted,
+      onChanged: onTextCompleted,
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white70,
@@ -18,7 +18,7 @@ class SearchComponent extends StatelessWidget {
           borderRadius: BorderRadius.all(
             Radius.circular(15),
           ),
-          borderSide: BorderSide(color: Colors.black38),
+          borderSide: BorderSide(color: Colors.white60),
         ),
         enabledBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(
@@ -26,12 +26,6 @@ class SearchComponent extends StatelessWidget {
           ),
           borderSide: BorderSide(color: Colors.orangeAccent),
         ),
-        // border: const OutlineInputBorder(
-        //   borderRadius: BorderRadius.all(
-        //     Radius.circular(15),
-        //   ),
-        //   borderSide: BorderSide(color: Colors.orangeAccent),
-        // ),
         suffixIcon: const Icon(Icons.search),
         hintText: message,
         hintStyle: regular14.copyWith(color: Colors.grey[500]),

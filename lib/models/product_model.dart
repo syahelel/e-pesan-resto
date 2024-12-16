@@ -37,7 +37,7 @@ class ProductModel {
             deletedAt: json["deleted_at"],
             createdAt: DateTime.tryParse(json["created_at"])!,
             updatedAt: DateTime.tryParse(json["updated_at"])!,
-            rate: json['rate']
+            rate: json['rate'] is int ? (json['rate'] as int).toDouble() : json['rate'],
         );
     }
 

@@ -1,3 +1,4 @@
+import 'package:e_pesan_resto/global_utility/constant.dart';
 import 'package:e_pesan_resto/global_utility/functionality.dart';
 import 'package:e_pesan_resto/presentation/homepage/state/user_home_state.dart';
 import 'package:e_pesan_resto/theme/font_theme.dart';
@@ -37,12 +38,11 @@ class MenusTile extends StatelessWidget {
     final UserHomeState uhs = Get.put(UserHomeState());
 
     return Obx(() {
-      // Pastikan `uhs.displayedProduct` tidak melebihi index yang diakses
-      if (index >= uhs.displayedProduct.length) {
+      if (index >= uhs.fullProduct.length) {
         return const SizedBox
-            .shrink(); // Return widget kosong jika index tidak valid
+            .shrink();
       }
-
+      
       final uhsItemOnIndexed = uhs.displayedProduct[index];
 
       return Card(
@@ -66,7 +66,7 @@ class MenusTile extends StatelessWidget {
                       Radius.circular(15),
                     ),
                     child: Image.network(
-                      uhsItemOnIndexed.photo,
+                      '$BASEURL${uhsItemOnIndexed.photo}',
                       fit: BoxFit.cover,
                       width: double.infinity,
                       height: 125,
@@ -76,28 +76,34 @@ class MenusTile extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        uhsItemOnIndexed.name,
-                        style: regular14,
-                        overflow: TextOverflow.ellipsis,
+                      Flexible(
+                        flex: 2,
+                        child: Text(
+                          uhsItemOnIndexed.name,
+                          style: regular14,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                      Row(
-                        children: [
-                          SvgPicture.asset(
-                            'assets/images/icon_star.svg',
-                            colorFilter: const ColorFilter.mode(
-                              Colors.orange,
-                              BlendMode.srcIn,
+                      Flexible(
+                        flex: 1,
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              'assets/images/icon_star.svg',
+                              colorFilter: const ColorFilter.mode(
+                                Colors.orange,
+                                BlendMode.srcIn,
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 5),
-                            child: Text(
-                              uhsItemOnIndexed.rate.toString(),
-                              style: regular14,
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5),
+                              child: Text(
+                                uhsItemOnIndexed.rate.toString(),
+                                style: regular14,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),

@@ -71,6 +71,7 @@ class AuthController {
           authState.authModel.value.name,
           authState.authModel.value.email,
           response.data.token,
+          authState.authModel.value.role.contains('admin') ? true : false
         );
         
       } catch (e) {

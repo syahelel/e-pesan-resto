@@ -4,6 +4,7 @@ import 'package:e_pesan_resto/global_component/search_component.dart';
 import 'package:e_pesan_resto/presentation/cart/cart_page.dart';
 import 'package:e_pesan_resto/presentation/homepage/component/categories_tile.dart';
 import 'package:e_pesan_resto/presentation/homepage/component/menus_tile.dart';
+import 'package:e_pesan_resto/presentation/homepage/component/menus_tile_loading.dart';
 import 'package:e_pesan_resto/presentation/homepage/state/user_home_state.dart';
 import 'package:e_pesan_resto/theme/font_theme.dart';
 import 'package:flutter/material.dart';
@@ -82,7 +83,9 @@ class _UserHomePageState extends State<UserHomePage> {
                 ),
                 SearchComponent(
                   message: "Temukan favorit anda",
-                  onTextCompleted: (value) {},
+                  onTextCompleted: (value) {
+                    cc.onMenuSearch(value);
+                  },
                 )
               ],
             ),
@@ -172,6 +175,15 @@ class _UserHomePageState extends State<UserHomePage> {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  height: 200,
+                )
+              ],
+            ),
+          ),
           Obx(
             () {
               return cc.menuItem.value == 1
@@ -220,30 +232,49 @@ class _UserHomePageState extends State<UserHomePage> {
                               style: bold20,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 20,
-                              right: 20,
-                              bottom: 100,
-                            ),
-                            child: Obx(
-                              () => GridView.count(
-                                crossAxisCount: 2,
-                                childAspectRatio: 3 / 4.5,
-                                crossAxisSpacing: 10,
-                                mainAxisSpacing: 10,
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                children: List.generate(
-                                  cc.displayedProduct.length,
-                                  (index) {
-                                    return MenusTile(
-                                      index: index,
-                                    );
-                                  },
+                          Obx(
+                            () {
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                  left: 20,
+                                  right: 20,
+                                  bottom: cc.displayedProduct.length <= 2
+                                      ? 150
+                                      : 100,
                                 ),
-                              ),
-                            ),
+                                child: cc.isLoading.value
+                                    ? GridView.count(
+                                        crossAxisCount: 2,
+                                        childAspectRatio: 3 / 4.5,
+                                        crossAxisSpacing: 10,
+                                        mainAxisSpacing: 10,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        children: List.generate(
+                                          4,
+                                          (index) {
+                                            return const MenusTileLoading();
+                                          },
+                                        ),
+                                      )
+                                    : GridView.count(
+                                        crossAxisCount: 2,
+                                        childAspectRatio: 3 / 4.5,
+                                        crossAxisSpacing: 10,
+                                        mainAxisSpacing: 10,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        children: List.generate(
+                                          cc.displayedProduct.length,
+                                          (index) {
+                                            return MenusTile(index: index);
+                                          },
+                                        ),
+                                      ),
+                              );
+                            },
                           ),
                         ],
                       ),

@@ -23,19 +23,17 @@ class HomeController {
 
     if (checkConnectivity) {
       try {
-        print('sampe fetch');
         var result = await apiService.getAllProduct(token);
-        print("hasil print: ${result.data[0].name}");
 
         // Update on state
         userHomeState.fullProduct.value = result.data;
+        userHomeState.displayedProduct.value = result.data.where((value) => value.productTypesId == 1).toList();
         userHomeState.statusError.value = false;
         userHomeState.isLoading.value = false;
         userHomeState.statusSuccess.value = true;
         
         
       } catch (e) {
-            print("Gagal excep $e");
         userHomeState.statusError.value = true;
         userHomeState.isLoading.value = false;
         userHomeState.errorMessage.value = e.toString();

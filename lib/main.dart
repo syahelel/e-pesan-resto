@@ -3,7 +3,7 @@ import 'package:e_pesan_resto/presentation/homepage/admin_homepage.dart';
 import 'package:e_pesan_resto/presentation/homepage/user_homepage.dart';
 import 'package:e_pesan_resto/presentation/authentication/login_page.dart';
 import 'package:e_pesan_resto/presentation/authentication/register_page.dart';
-import 'package:e_pesan_resto/presentation/authentication/welcome.dart';
+import 'package:e_pesan_resto/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
