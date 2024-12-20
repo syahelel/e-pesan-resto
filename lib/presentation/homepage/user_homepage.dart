@@ -1,11 +1,12 @@
 import 'package:e_pesan_resto/controllers/home_controller.dart';
 import 'package:e_pesan_resto/controllers/session_controller.dart';
+import 'package:e_pesan_resto/global/global_state.dart';
 import 'package:e_pesan_resto/global_component/search_component.dart';
-import 'package:e_pesan_resto/presentation/cart/cart_page.dart';
 import 'package:e_pesan_resto/presentation/homepage/component/categories_tile.dart';
 import 'package:e_pesan_resto/presentation/homepage/component/menus_tile.dart';
 import 'package:e_pesan_resto/presentation/homepage/component/menus_tile_loading.dart';
 import 'package:e_pesan_resto/presentation/homepage/state/user_home_state.dart';
+import 'package:e_pesan_resto/presentation/order/order_page.dart';
 import 'package:e_pesan_resto/theme/font_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,6 +22,7 @@ class UserHomePage extends StatefulWidget {
 class _UserHomePageState extends State<UserHomePage> {
   final SessionController sc = Get.put(SessionController());
   final UserHomeState cc = Get.put(UserHomeState());
+  final GlobalState gs = Get.put(GlobalState());
   final HomeController hm = Get.put(HomeController());
 
   @override
@@ -39,43 +41,65 @@ class _UserHomePageState extends State<UserHomePage> {
           width: double.infinity,
           color: Colors.orange,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 30),
+            padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 30),
             child: Column(
               children: [
+                const SizedBox(
+                  height: 10,
+                ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.person_2_outlined,
-                          size: 40,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 18,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
-                          'Hallo, $name',
-                          style: bold20.copyWith(color: Colors.white),
-                        ),
-                        Text(
-                          'Mau makan/minum apa hari ini?',
-                          style: regular14.copyWith(
+                        Container(
+                          decoration: BoxDecoration(
                             color: Colors.white,
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.person_2_outlined,
+                              size: 40,
+                            ),
                           ),
                         ),
+                        const SizedBox(
+                          width: 18,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Hallo, $name',
+                              style: bold20.copyWith(color: Colors.white),
+                            ),
+                            Text(
+                              'Mau pesan apa hari ini?',
+                              style: regular14.copyWith(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
-                    )
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Get.toNamed('/cart');
+                      },
+                      child: SvgPicture.asset(
+                        'assets/images/icon_cart.svg',
+                        width: 25,
+                        height: 25,
+                        colorFilter: const ColorFilter.mode(
+                          Colors.white,
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(
@@ -92,19 +116,16 @@ class _UserHomePageState extends State<UserHomePage> {
           ),
         ),
         Positioned(
-          bottom: 0,
           left: 0,
+          bottom: 0,
           right: 0,
           child: Container(
-            width: double.infinity,
             height: 30,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(40),
-                topRight: Radius.circular(40),
-              ),
-            ),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30))),
           ),
         )
       ],
@@ -179,7 +200,7 @@ class _UserHomePageState extends State<UserHomePage> {
             child: Column(
               children: [
                 Container(
-                  height: 200,
+                  height: MediaQuery.sizeOf(context).height,
                 )
               ],
             ),
@@ -242,14 +263,13 @@ class _UserHomePageState extends State<UserHomePage> {
                                       ? 150
                                       : 100,
                                 ),
-                                child: cc.isLoading.value
+                                child: gs.isLoading.value
                                     ? GridView.count(
                                         crossAxisCount: 2,
                                         childAspectRatio: 3 / 4.5,
                                         crossAxisSpacing: 10,
                                         mainAxisSpacing: 10,
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
+                                        physics: const NeverScrollableScrollPhysics(),
                                         shrinkWrap: true,
                                         children: List.generate(
                                           4,
@@ -279,31 +299,30 @@ class _UserHomePageState extends State<UserHomePage> {
                         ],
                       ),
                     )
-                  : const CartPage();
+                  : const OrderPage();
             },
           ),
-
-          // Navigation Bar
           Positioned(
             bottom: 20,
-            left: 40,
-            right: 40,
+            left: 25,
+            right: 25,
             child: Container(
               height: 70,
               decoration: BoxDecoration(
-                  border: Border.all(color: Colors.orange),
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(30),
+                border: Border.all(color: Colors.orange),
+                color: Colors.white,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(30),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 7,
+                    offset: const Offset(0, 3),
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 7,
-                      offset: const Offset(0, 3),
-                    ),
-                  ]),
+                ],
+              ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Row(
@@ -315,8 +334,8 @@ class _UserHomePageState extends State<UserHomePage> {
                       id: 1,
                     ),
                     itemMenu(
-                      assets: 'assets/images/icon_cart.svg',
-                      label: 'Home',
+                      assets: 'assets/images/icon_transaction.svg',
+                      label: 'Order',
                       id: 2,
                     ),
                   ],

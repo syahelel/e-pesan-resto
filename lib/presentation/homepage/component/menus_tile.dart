@@ -1,5 +1,7 @@
+import 'package:e_pesan_resto/controllers/cart_controller.dart';
 import 'package:e_pesan_resto/global_utility/constant.dart';
 import 'package:e_pesan_resto/global_utility/functionality.dart';
+import 'package:e_pesan_resto/global_utility/widget.dart';
 import 'package:e_pesan_resto/presentation/homepage/state/user_home_state.dart';
 import 'package:e_pesan_resto/theme/font_theme.dart';
 import 'package:flutter/material.dart';
@@ -35,14 +37,14 @@ class MenusTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserHomeState uhs = Get.put(UserHomeState());
+    final uhs = Get.put(UserHomeState());
+    final cc = Get.put(CartController());
 
     return Obx(() {
       if (index >= uhs.fullProduct.length) {
-        return const SizedBox
-            .shrink();
+        return const SizedBox.shrink();
       }
-      
+
       final uhsItemOnIndexed = uhs.displayedProduct[index];
 
       return Card(
@@ -59,72 +61,91 @@ class MenusTile extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(15),
+              GestureDetector(
+                onTap: () {
+                  uhs.selectedItem.value = uhsItemOnIndexed.id;
+                  Get.toNamed('/detail-product');
+                },
+                child: Column(
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(15),
+                      ),
+                      child: Image.network(
+                        '$BASEURL${uhsItemOnIndexed.photo}',
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: 125,
+                      ),
                     ),
-                    child: Image.network(
-                      '$BASEURL${uhsItemOnIndexed.photo}',
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      height: 125,
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          flex: 2,
+                          child: Text(
+                            uhsItemOnIndexed.name,
+                            style: regular14,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/images/icon_star.svg',
+                                colorFilter: const ColorFilter.mode(
+                                  Colors.orange,
+                                  BlendMode.srcIn,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5),
+                                child: Text(
+                                  uhsItemOnIndexed.rate.toString(),
+                                  style: regular14,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        flex: 2,
-                        child: Text(
-                          uhsItemOnIndexed.name,
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Harga :',
                           style: regular14,
-                          overflow: TextOverflow.ellipsis,
                         ),
-                      ),
-                      Flexible(
-                        flex: 1,
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              'assets/images/icon_star.svg',
-                              colorFilter: const ColorFilter.mode(
-                                Colors.orange,
-                                BlendMode.srcIn,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: Text(
-                                uhsItemOnIndexed.rate.toString(),
-                                style: regular14,
-                              ),
-                            ),
-                          ],
+                        Text(
+                          uhsItemOnIndexed.price.toIDR(),
+                          style: bold14.copyWith(color: Colors.orange),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Harga :',
-                        style: regular14,
-                      ),
-                      Text(
-                        uhsItemOnIndexed.price.toIDR(),
-                        style: bold14.copyWith(color: Colors.orange),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                ],
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                  ],
+                ),
               ),
-              addToCartContainer(),
+              GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return selectQuanityProduct((value) {
+                        cc.addItemIntocart(value, uhsItemOnIndexed.id);
+                        Get.back();  
+                      });
+                    },
+                  );
+                },
+                child: addToCartContainer(),
+              ),
             ],
           ),
         ),

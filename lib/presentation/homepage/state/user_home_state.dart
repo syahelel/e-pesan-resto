@@ -7,10 +7,10 @@ class UserHomeState extends GetxController {
   var categoryItem = 1.obs;
   var fullProduct = <ProductModel>[].obs;
   var displayedProduct = <ProductModel>[].obs;
-  var isLoading = false.obs;
-  var statusError = false.obs;
-  var statusSuccess = false.obs;
-  var errorMessage = ''.obs;
+
+  var selectedItem = 0.obs;
+
+
 
   void changeMenuItem(int id) {
     menuItem.value = id;
