@@ -1,3 +1,3 @@
 
 // For API Resource
-const BASEURL = 'https://c1e7-103-10-121-254.ngrok-free.app';
+const BASEURL = 'https://b00f-180-254-66-176.ngrok-free.app';

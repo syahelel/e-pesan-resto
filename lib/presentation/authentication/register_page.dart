@@ -66,217 +66,224 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Center(
           child: Stack(
             children: [
-              SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(
-                        height: 50,
-                      ),
-                      // Logo
-                      Image.asset(
-                        'assets/images/display_logos.png',
-                        fit: BoxFit.contain,
-                        width: 100,
-                        height: 100,
-                      ),
-                      const SizedBox(height: 16),
-
-                      // App Name
-                      Text("CHEF FOOD", style: bold16),
-                      const SizedBox(height: 32),
-
-                      // Login Title
-                      const Text(
-                        "Register",
-                        style: regular20,
-                      ),
-                      const SizedBox(height: 24),
-
-                      // Name Input Field
-                      TextFormField(
-                        decoration: InputDecoration(
-                          hintStyle: regular14.copyWith(color: Colors.grey),
-                          labelStyle: regular14,
-                          labelText: "Name",
-                          hintText: "Enter your Name",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Field kosong | Harap isi terlebih dahulu';
-                          }
-                          return null;
-                        },
-                        keyboardType: TextInputType.text,
-                        onChanged: (value) => authState.nameState.value = value,
-                        textInputAction: TextInputAction.next,
-                      ),
-                      const SizedBox(height: 16),
-
-                      // Email Input Field
-                      TextFormField(
-                        decoration: InputDecoration(
-                          hintStyle: regular14.copyWith(color: Colors.grey),
-                          labelStyle: regular14,
-                          labelText: "Email",
-                          hintText: "Enter your email",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Field kosong | Harap isi terlebih dahulu';
-                          } else if (!value.contains('@gmail.com')) {
-                            return 'Format email salah | Harap periksa kembali';
-                          }
-                          return null;
-                        },
-                        keyboardType: TextInputType.emailAddress,
-                        onChanged: (value) =>
-                            authState.emailState.value = value,
-                        textInputAction: TextInputAction.next,
-                      ),
-                      const SizedBox(height: 16),
-
-                      // No HP Input Field
-                      TextFormField(
-                        decoration: InputDecoration(
-                          hintStyle: regular14.copyWith(color: Colors.grey),
-                          labelStyle: regular14,
-                          labelText: "No Handphone",
-                          hintText: "Enter your No Handphone",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Field kosong | Harap isi terlebih dahulu';
-                          }
-                          return null;
-                        },
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) =>
-                            authState.phoneNumberState.value = value,
-                        textInputAction: TextInputAction.next,
-                      ),
-                      const SizedBox(height: 16),
-
-                      // Password Input Field
-                      TextFormField(
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          hintStyle: regular14.copyWith(color: Colors.grey),
-                          labelStyle: regular14,
-                          labelText: "Password",
-                          hintText: "Enter your password",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Field kosong | Harap isi terlebih dahulu';
-                          }
-                          return null;
-                        },
-                        onChanged: (value) =>
-                            authState.passwordState.value = value,
-                        textInputAction: TextInputAction.next,
-                      ),
-                      const SizedBox(height: 24),
-
-                      // Confirm Password Input Field
-                      TextFormField(
-                        controller: cm,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          hintStyle: regular14.copyWith(color: Colors.grey),
-                          labelStyle: regular14,
-                          labelText: "Confirm Password",
-                          hintText: "re-enter your password",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Field kosong | Harap isi terlebih dahulu';
-                          }
-                          return null;
-                        },
-                        textInputAction: TextInputAction.done,
-                      ),
-                      const SizedBox(height: 24),
-
-                      SizedBox(
-                        height: 50,
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (!_formKey.currentState!.validate()) {
-                              authState.statusError.value = true;
-                              authState.errorMessage.value =
-                                  'Harap masukan data dengan benar';
-                            } else {
-                              if (authState.passwordState.value != cm.text) {
-                                authState.statusError.value = true;
-                                authState.errorMessage.value =
-                                    'Password tidak sesuai';
-                              } else {
-                                authController.register();
-                              }
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.orange,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          child: Text(
-                            "Register",
-                            style: regular14.copyWith(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-
-                      // Register Link
-                      Row(
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Center(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            "Already have an account? ",
-                            style: regular14,
+                          const SizedBox(
+                            height: 50,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              Get.offNamed('/login');
+                          // Logo
+                          Image.asset(
+                            'assets/images/display_logos.png',
+                            fit: BoxFit.contain,
+                            width: 100,
+                            height: 100,
+                          ),
+                          const SizedBox(height: 16),
+                  
+                          // App Name
+                          Text("CHEF FOOD", style: bold16),
+                          const SizedBox(height: 32),
+                  
+                          // Login Title
+                          const Text(
+                            "Register",
+                            style: regular20,
+                          ),
+                          const SizedBox(height: 24),
+                  
+                          // Name Input Field
+                          TextFormField(
+                            decoration: InputDecoration(
+                              hintStyle: regular14.copyWith(color: Colors.grey),
+                              labelStyle: regular14,
+                              labelText: "Name",
+                              hintText: "Enter your Name",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Field kosong | Harap isi terlebih dahulu';
+                              }
+                              return null;
                             },
-                            child: Text(
-                              "Login",
-                              style: regular14.copyWith(
-                                color: Colors.orange,
+                            keyboardType: TextInputType.text,
+                            onChanged: (value) => authState.nameState.value = value,
+                            textInputAction: TextInputAction.next,
+                          ),
+                          const SizedBox(height: 16),
+                  
+                          // Email Input Field
+                          TextFormField(
+                            decoration: InputDecoration(
+                              hintStyle: regular14.copyWith(color: Colors.grey),
+                              labelStyle: regular14,
+                              labelText: "Email",
+                              hintText: "Enter your email",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Field kosong | Harap isi terlebih dahulu';
+                              } else if (!value.contains('@gmail.com')) {
+                                return 'Format email salah | Harap periksa kembali';
+                              }
+                              return null;
+                            },
+                            keyboardType: TextInputType.emailAddress,
+                            onChanged: (value) =>
+                                authState.emailState.value = value,
+                            textInputAction: TextInputAction.next,
+                          ),
+                          const SizedBox(height: 16),
+                  
+                          // No HP Input Field
+                          TextFormField(
+                            decoration: InputDecoration(
+                              hintStyle: regular14.copyWith(color: Colors.grey),
+                              labelStyle: regular14,
+                              labelText: "No Handphone",
+                              hintText: "Enter your No Handphone",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Field kosong | Harap isi terlebih dahulu';
+                              }
+                              return null;
+                            },
+                            keyboardType: TextInputType.number,
+                            onChanged: (value) =>
+                                authState.phoneNumberState.value = value,
+                            textInputAction: TextInputAction.next,
+                          ),
+                          const SizedBox(height: 16),
+                  
+                          // Password Input Field
+                          TextFormField(
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              hintStyle: regular14.copyWith(color: Colors.grey),
+                              labelStyle: regular14,
+                              labelText: "Password",
+                              hintText: "Enter your password",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Field kosong | Harap isi terlebih dahulu';
+                              }
+                              return null;
+                            },
+                            onChanged: (value) =>
+                                authState.passwordState.value = value,
+                            textInputAction: TextInputAction.next,
+                          ),
+                          const SizedBox(height: 24),
+                  
+                          // Confirm Password Input Field
+                          TextFormField(
+                            controller: cm,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              hintStyle: regular14.copyWith(color: Colors.grey),
+                              labelStyle: regular14,
+                              labelText: "Confirm Password",
+                              hintText: "re-enter your password",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Field kosong | Harap isi terlebih dahulu';
+                              }
+                              return null;
+                            },
+                            textInputAction: TextInputAction.done,
+                          ),
+                          const SizedBox(height: 24),
+                  
+                          SizedBox(
+                            height: 50,
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (!_formKey.currentState!.validate()) {
+                                  authState.statusError.value = true;
+                                  authState.errorMessage.value =
+                                      'Harap masukan data dengan benar';
+                                } else {
+                                  if (authState.passwordState.value != cm.text) {
+                                    authState.statusError.value = true;
+                                    authState.errorMessage.value =
+                                        'Password tidak sesuai';
+                                  } else {
+                                    authController.register();
+                                  }
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.orange,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              child: Text(
+                                "Register",
+                                style: regular14.copyWith(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
                               ),
                             ),
                           ),
+                          const SizedBox(height: 24),
+                  
+                          // Register Link
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Already have an account? ",
+                                style: regular14,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Get.offNamed('/login');
+                                },
+                                child: Text(
+                                  "Login",
+                                  style: regular14.copyWith(
+                                    color: Colors.orange,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
                         ],
-                      )
-                    ],
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -294,7 +301,6 @@ class _RegisterPageState extends State<RegisterPage> {
             ],
           ),
         ),
-      ),
     );
   }
 }

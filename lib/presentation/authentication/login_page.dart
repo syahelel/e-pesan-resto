@@ -65,145 +65,153 @@ class Loginpage extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                     const SizedBox(
-                        height: 50,
-                      ),
-                    // Logo
-                    Image.asset(
-                      'assets/images/display_logos.png',
-                      fit: BoxFit.contain,
-                      width: 100,
-                      height: 100,
-                    ),
-                    const SizedBox(height: 16),
-
-                    // App Name
-                    const Text(
-                      "CHEFF FOOD",
-                      style: bold20,
-                    ),
-                    const SizedBox(height: 32),
-
-                    // Login Title
-                    const Text(
-                      "Login",
-                      style: regular20,
-                    ),
-                    const SizedBox(height: 24),
-
-                    // Email Input Field
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: "Email",
-                        hintText: "Enter your email",
-                        labelStyle: regular14,
-                        hintStyle: regular14.copyWith(
-                          color: Colors.grey,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                      ),
-                      keyboardType: TextInputType.emailAddress,
-                      textInputAction: TextInputAction.next,
-                      onChanged: (value) => authState.emailState.value = value,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Field kosong | Harap isi terlebih dahulu';
-                        } else if (!value.contains('@gmail.com')) {
-                          return 'Format email salah | Harap periksa kembali';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-
-                    // Password Input Field
-                    TextFormField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        labelText: "Password",
-                        hintText: "Enter your password",
-                        labelStyle: regular14,
-                        hintStyle: regular14.copyWith(
-                          color: Colors.grey,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                      ),
-                      textInputAction: TextInputAction.done,
-                      onChanged: (value) => authState.passwordState.value = value,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Field kosong | Harap isi terlebih dahulu';
-                        } 
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 24),
-
-                    // Login Button
-                    SizedBox(
-                      height: 50,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (!_formKey.currentState!.validate()) {
-                            authState.statusError.value = true;
-                            authState.errorMessage.value =
-                                'Harap masukan data dengan benar';
-                          } else {
-                            print('hasi: ${authState.emailState.value}, ${authState.passwordState.value}');
-                            authController.login();
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        child: Text(
-                          "Login",
-                          style: bold14.copyWith(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-
-                    // Register Link
-                    Row(
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Center(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
-                          "Don’t have an account? ",
-                          style: TextStyle(color: Colors.black),
+                         const SizedBox(
+                            height: 50,
+                          ),
+                        // Logo
+                        Image.asset(
+                          'assets/images/display_logos.png',
+                          fit: BoxFit.contain,
+                          width: 100,
+                          height: 100,
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Get.toNamed('/register');
+                        const SizedBox(height: 16),
+                
+                        // App Name
+                        const Text(
+                          "CHEFF FOOD",
+                          style: bold20,
+                        ),
+                        const SizedBox(height: 32),
+                
+                        // Login Title
+                        const Text(
+                          "Login",
+                          style: regular20,
+                        ),
+                        const SizedBox(height: 24),
+                
+                        // Email Input Field
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelText: "Email",
+                            hintText: "Enter your email",
+                            labelStyle: regular14,
+                            hintStyle: regular14.copyWith(
+                              color: Colors.grey,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          onChanged: (value) => authState.emailState.value = value,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Field kosong | Harap isi terlebih dahulu';
+                            } else if (!value.contains('@gmail.com')) {
+                              return 'Format email salah | Harap periksa kembali';
+                            }
+                            return null;
                           },
-                          child: const Text(
-                            "Register",
-                            style: TextStyle(
-                              color: Colors.orange,
-                              fontWeight: FontWeight.bold,
+                        ),
+                        const SizedBox(height: 16),
+                
+                        // Password Input Field
+                        TextFormField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            labelText: "Password",
+                            hintText: "Enter your password",
+                            labelStyle: regular14,
+                            hintStyle: regular14.copyWith(
+                              color: Colors.grey,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ),
+                          textInputAction: TextInputAction.done,
+                          onChanged: (value) => authState.passwordState.value = value,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Field kosong | Harap isi terlebih dahulu';
+                            } 
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 24),
+                
+                        // Login Button
+                        SizedBox(
+                          height: 50,
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (!_formKey.currentState!.validate()) {
+                                authState.statusError.value = true;
+                                authState.errorMessage.value =
+                                    'Harap masukan data dengan benar';
+                              } else {
+                                print('hasi: ${authState.emailState.value}, ${authState.passwordState.value}');
+                                authController.login();
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.orange,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: Text(
+                              "Login",
+                              style: bold14.copyWith(
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
+                        const SizedBox(height: 24),
+                
+                        // Register Link
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              "Don’t have an account? ",
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Get.toNamed('/register');
+                              },
+                              child: const Text(
+                                "Register",
+                                style: TextStyle(
+                                  color: Colors.orange,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
                       ],
-                    )
-                  ],
+                    ),
+                  ),
                 ),
               ),
             ),

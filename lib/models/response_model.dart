@@ -7,6 +7,13 @@ class ResponseModel<T> {
     required this.data,
   });
 
+  factory ResponseModel.fromNullJson(Map<String, dynamic> json) {
+    return ResponseModel<T>(
+      meta: Meta.fromJson(json['meta']),
+      data: '' as T,
+    );
+  }
+
   factory ResponseModel.fromJson(Map<String, dynamic> json,
       T Function(Map<String, dynamic>) fromDataJson) {
     return ResponseModel<T>(

@@ -1,15 +1,34 @@
 import 'dart:convert';
 
+import 'package:e_pesan_resto/presentation/authentication/auth_state.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SessionController extends GetxController {
   static final SessionController _instance = SessionController._internal();
+  final authState = Get.put(AuthState());
 
   SessionController._internal();
 
   factory SessionController() {
     return _instance;
+  }
+  void initialCondition() async {
+    authState.isLoading.value = true;
+
+    getPreference();
+    await Future.delayed(Duration(seconds: 2));
+
+    if (session.value.token.isNotEmpty || session.value.token != '') {
+      if (session.value.isAdmin) {
+        authState.isLoading.value = false;
+        Get.offAllNamed('/admin -dashboard');
+      } else {
+        authState.isLoading.value = false;
+        Get.offAllNamed('/user-dashboard');
+      }
+    }
+    authState.isLoading.value = false;
   }
 
   var session = SessionModel(
@@ -17,13 +36,15 @@ class SessionController extends GetxController {
     name: '',
     email: '',
     token: '',
+    isAdmin: false,
   ).obs;
 
   Future<void> setPreference(
-    int id, 
+    int id,
     String name,
     String email,
-    String token
+    String token,
+    bool isAdmin,
   ) async {
     final accountSession = await SharedPreferences.getInstance();
     if (accountSession.containsKey('session')) {
@@ -35,6 +56,7 @@ class SessionController extends GetxController {
       'name': name.toString(),
       'email': email.toString(),
       'token': token.toString(),
+      'isAdmin': isAdmin.toString()
     });
 
     accountSession.setString('session', data);
@@ -47,13 +69,13 @@ class SessionController extends GetxController {
         accountSession.getString('session').toString(),
       ) as Map<String, dynamic>;
       var result = SessionModel(
-        id: int.parse(
-          data['id'],
-        ),
-        name: data['name'],
-        email: data['email'],
-        token: data['token'],
-      );
+          id: int.parse(
+            data['id'],
+          ),
+          name: data['name'],
+          email: data['email'],
+          token: data['token'],
+          isAdmin: bool.parse(data['isAdmin']));
       session.value = result;
     }
   }
@@ -64,11 +86,12 @@ class SessionModel {
   final String name;
   final String email;
   final String token;
+  final bool isAdmin;
 
-  SessionModel({
-    required this.id,
-    required this.name,
-    required this.email,
-    required this.token,
-  });
+  SessionModel(
+      {required this.id,
+      required this.name,
+      required this.email,
+      required this.token,
+      required this.isAdmin});
 }
