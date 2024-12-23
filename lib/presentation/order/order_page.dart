@@ -168,12 +168,12 @@ class _OrderPageState extends State<OrderPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Image.asset(
-                                'assets/images/display_empty_cart.png',
+                                'assets/images/display_empty_transaction2.png',
                                 width: 300,
                                 height: 300,
                               ),
                               const Text(
-                                'Keranjang Kosong',
+                                'Transaksi Kosong',
                                 style: regular20,
                               ),
                             ],

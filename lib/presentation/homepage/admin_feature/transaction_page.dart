@@ -80,7 +80,7 @@ class _TransactionPageState extends State<TransactionPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Image.asset(
-                                  'assets/images/display_empty_cart.png',
+                                  'assets/images/display_empty_transaction2.png',
                                   width: 300,
                                   height: 300,
                                 ),
