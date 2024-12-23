@@ -1,3 +1,4 @@
+import 'package:e_pesan_resto/models/login_model.dart';
 import 'package:e_pesan_resto/models/product_model.dart';
 
 class CartResponse {
@@ -8,6 +9,7 @@ class CartResponse {
         required this.createdAt,
         required this.updatedAt,
         required this.items,
+        required this.account
     });
 
     final int? id;
@@ -16,6 +18,7 @@ class CartResponse {
     final DateTime? createdAt;
     final DateTime? updatedAt;
     final List<CartModel> items;
+    final LoginModel? account;
 
     factory CartResponse.fromJson(Map<String, dynamic> json){ 
         return CartResponse(
@@ -25,6 +28,7 @@ class CartResponse {
             createdAt: DateTime.tryParse(json["created_at"] ?? ""),
             updatedAt: DateTime.tryParse(json["updated_at"] ?? ""),
             items: json["items"] == null ? [] : List<CartModel>.from(json["items"]!.map((x) => CartModel.fromJson(x))),
+            account: json["account"] == null ? null : LoginModel.fromJson(json["account"])
         );
     }
 

@@ -55,8 +55,8 @@ class PaymentController {
       try {
         var token = session.session.value.token;
         var response = await apiService.createPaymentWithOrderId(token, cartId, orderId);
-        globalState.isLoading.value = false;
         var data = response.data;
+        globalState.isLoading.value = false;
         orderState.paymentUrl.value = data.redirectPayment!;
         orderState.snapToken.value = data.snapToken!;
       } catch (e) {

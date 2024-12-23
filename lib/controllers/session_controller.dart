@@ -22,7 +22,7 @@ class SessionController extends GetxController {
     if (session.value.token.isNotEmpty || session.value.token != '') {
       if (session.value.isAdmin) {
         authState.isLoading.value = false;
-        Get.offAllNamed('/admin -dashboard');
+        Get.offAllNamed('/admin-dashboard');
       } else {
         authState.isLoading.value = false;
         Get.offAllNamed('/user-dashboard');
@@ -78,6 +78,14 @@ class SessionController extends GetxController {
           isAdmin: bool.parse(data['isAdmin']));
       session.value = result;
     }
+  }
+
+  Future<void> clearPreference() async {
+    final accountSession = await SharedPreferences.getInstance();
+    if (accountSession.containsKey('session')) {
+      accountSession.clear();
+    }
+
   }
 }
 

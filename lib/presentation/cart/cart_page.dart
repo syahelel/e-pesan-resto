@@ -96,6 +96,7 @@ class _CartPageState extends State<CartPage> {
                 Obx(
                   () {
                     var data = cs.data.value.items;
+                    print('cart: $data');
                     return data.isEmpty
                         ? SizedBox(
                             height: 500,

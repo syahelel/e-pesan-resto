@@ -167,7 +167,6 @@ class Loginpage extends StatelessWidget {
                                 authState.errorMessage.value =
                                     'Harap masukan data dengan benar';
                               } else {
-                                print('hasi: ${authState.emailState.value}, ${authState.passwordState.value}');
                                 authController.login();
                               }
                             },

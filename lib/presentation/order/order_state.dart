@@ -9,6 +9,7 @@ class OrderState extends GetxController {
   var statusSuccess = false.obs;
   var statusError = false.obs;
   var statusUnfinish = false.obs;
+  var index = 0.obs;
   var dataOrder = ResponseModel(
     meta: Meta(code: 0, status: 'unknown', message: 'unkown'),
     data: <CheckoutModel>[],

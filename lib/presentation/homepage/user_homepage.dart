@@ -86,19 +86,41 @@ class _UserHomePageState extends State<UserHomePage> {
                         ),
                       ],
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Get.toNamed('/cart');
-                      },
-                      child: SvgPicture.asset(
-                        'assets/images/icon_cart.svg',
-                        width: 25,
-                        height: 25,
-                        colorFilter: const ColorFilter.mode(
-                          Colors.white,
-                          BlendMode.srcIn,
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Get.toNamed('/cart');
+                          },
+                          child: SvgPicture.asset(
+                            'assets/images/icon_cart2.svg',
+                            width: 25,
+                            height: 25,
+                            colorFilter: const ColorFilter.mode(
+                              Colors.white,
+                              BlendMode.srcIn,
+                            ),
+                          ),
                         ),
-                      ),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Get.toNamed('/login');
+                            sc.clearPreference();
+                          },
+                          child: SvgPicture.asset(
+                            'assets/images/icon_logout.svg',
+                            width: 25,
+                            height: 25,
+                            colorFilter: const ColorFilter.mode(
+                              Colors.white,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -121,7 +143,7 @@ class _UserHomePageState extends State<UserHomePage> {
           right: 0,
           child: Container(
             height: 30,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30),
