@@ -1,4 +1,5 @@
 import 'package:e_pesan_resto/global_utility/functionality.dart';
+import 'package:e_pesan_resto/models/checkout_model.dart';
 import 'package:e_pesan_resto/presentation/order/order_state.dart';
 import 'package:e_pesan_resto/theme/font_theme.dart';
 import 'package:flutter/material.dart';
@@ -6,19 +7,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../../controllers/payment_controller.dart';
-
-class OrderTile extends StatelessWidget {
-  final int index;
-  const OrderTile({super.key, required this.index});
+class OrderTileAdmin extends StatelessWidget {
+  final CheckoutModel model;
+  const OrderTileAdmin({super.key, required this.model});
 
   @override
   Widget build(BuildContext context) {
-    final os = Get.put(OrderState());
-    final pc = Get.put(PaymentController());
-    final indexedOs = os.dataOrder.value.data[index];
-
-    var date = indexedOs.createdAt;
+    final ahs = Get.put(OrderState());
+    var date = model.createdAt;
     var format = DateFormat('dd-MM-yyyy');
     String dateOnFormat = format.format(date!);
 
@@ -31,6 +27,28 @@ class OrderTile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Order Id',
+                  style: regular14,
+                ),
+                Text(
+                  model.orderId!,
+                  style: bold14,
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            const Divider(
+              thickness: 2,
+            ),
+            const SizedBox(
+              height: 5,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -51,7 +69,7 @@ class OrderTile extends StatelessWidget {
                   ],
                 ),
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
                       'Senin',
@@ -61,14 +79,14 @@ class OrderTile extends StatelessWidget {
                       height: 7,
                     ),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SvgPicture.asset(
-                          checkIconStatus(indexedOs.status!),
+                          checkIconStatus(model.status!),
                           width: 25,
                           height: 25,
                           colorFilter: ColorFilter.mode(
-                            checkIconColorStatus(indexedOs.status!),
+                            checkIconColorStatus(model.status!),
                             BlendMode.srcIn,
                           ),
                         ),
@@ -76,9 +94,9 @@ class OrderTile extends StatelessWidget {
                           width: 5,
                         ),
                         Text(
-                          indexedOs.status!,
+                          model.status!,
                           style: bold14.copyWith(
-                              color: checkIconColorStatus(indexedOs.status!)),
+                              color: checkIconColorStatus(model.status!)),
                         ),
                       ],
                     ),
@@ -103,52 +121,30 @@ class OrderTile extends StatelessWidget {
                       height: 7,
                     ),
                     Text(
-                      indexedOs.totalPrice!.toIDR(),
+                      model.totalPrice!.toIDR(),
                       style: bold14,
                     ),
                   ],
                 ),
-                !indexedOs.status!.contains('pending')
-                    ? FilledButton(
-                        style: FilledButton.styleFrom(
-                            backgroundColor: Colors.green),
-                        onPressed: () {
-                          os.index.value = indexedOs.checkoutableId!;
-                          Get.toNamed('/order-detail-nonpay');
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 30,
-                            vertical: 6,
-                          ),
-                          child: Text(
-                            'Detail',
-                            style: regular14.copyWith(color: Colors.white),
-                          ),
-                        ),
-                      )
-                    : FilledButton(
-                        style: FilledButton.styleFrom(
-                            backgroundColor: Colors.orange),
-                        onPressed: () {
-                          pc.createPaymentWithOrderId(
-                            indexedOs.checkoutableId!,
-                            indexedOs.orderId!,
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 30,
-                            vertical: 6,
-                          ),
-                          child: Text(
-                            'Bayar',
-                            style: regular14.copyWith(color: Colors.white),
-                          ),
-                        ),
-                      ),
+                FilledButton(
+                  style: FilledButton.styleFrom(backgroundColor: Colors.green),
+                  onPressed: () {
+                    ahs.index.value = model.checkoutableId!;
+                    Get.toNamed('/order-detail-nonpay');
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 30,
+                      vertical: 6,
+                    ),
+                    child: Text(
+                      'Detail',
+                      style: regular14.copyWith(color: Colors.white),
+                    ),
+                  ),
+                ),
               ],
-            )
+            ),
           ],
         ),
       ),

@@ -1,6 +1,10 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:e_pesan_resto/controllers/checkout_controller.dart';
+import 'package:e_pesan_resto/controllers/session_controller.dart';
+import 'package:e_pesan_resto/presentation/homepage/state/user_home_state.dart';
 import 'package:e_pesan_resto/presentation/order/component/order_tile.dart';
 import 'package:e_pesan_resto/presentation/order/order_state.dart';
+import 'package:e_pesan_resto/presentation/order/payment_screen.dart';
 import 'package:e_pesan_resto/theme/font_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,6 +25,8 @@ class _OrderPageState extends State<OrderPage> {
   final cc = Get.put(CheckoutController());
   final os = Get.put(OrderState());
   final gs = Get.put(GlobalState());
+  final uhs = Get.put(UserHomeState());
+  final ss = Get.put(SessionController());
 
   @override
   void initState() {
@@ -30,6 +36,96 @@ class _OrderPageState extends State<OrderPage> {
 
   @override
   Widget build(BuildContext context) {
+
+     // Payment stedy
+    os.paymentUrl.listen(
+      (value) async {
+        if (value.isNotEmpty || value != '') {
+          final result = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PaymentScreen(url: value),
+            ),
+          );
+
+          if (result == 'finish') {
+            os.statusSuccess.value = true;
+          } else if (result == 'error') {
+            os.statusError.value = true;
+          } else {
+            os.statusUnfinish.value = true;
+          }
+        }
+      },
+    );
+
+    os.statusUnfinish.listen((value) {
+      if (value) {
+        Future.delayed(const Duration(milliseconds: 500), () {
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.warning,
+            animType: AnimType.topSlide,
+            title: 'Pending',
+            titleTextStyle: bold20,
+            descTextStyle: regular14,
+            desc: 'Pembayaran tertunda, harap coba kembali',
+            buttonsTextStyle: regular14,
+            btnOkOnPress: () {
+              os.statusError.value = false;
+              uhs.changeMenuItem(2);
+              ss.session.value.isAdmin ? Get.toNamed('/admin-dashboard') : Get.toNamed('/ user-dashboard');
+            },
+          ).show();
+        });
+      }
+    });
+
+    os.statusError.listen((value) {
+      if (value) {
+        Future.delayed(const Duration(milliseconds: 500), () {
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.error,
+            animType: AnimType.topSlide,
+            title: 'Erorr',
+            titleTextStyle: bold20,
+            descTextStyle: regular14,
+            desc: 'Pembayaran gagal, harap coba kembali',
+            buttonsTextStyle: regular14,
+            btnOkOnPress: () {
+              os.statusError.value = false;
+              uhs.changeMenuItem(2);
+              ss.session.value.isAdmin ? Get.toNamed('/admin-dashboard') : Get.toNamed('/user-dashboard');
+            },
+          ).show();
+        });
+      }
+    });
+
+    os.statusSuccess.listen((value) {
+      if (value) {
+        Future.delayed(const Duration(milliseconds: 500), () {
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.success,
+            animType: AnimType.topSlide,
+            title: 'Success',
+            titleTextStyle: bold20,
+            descTextStyle: regular14,
+            desc: 'Pembayaran berhasil',
+            buttonsTextStyle: regular14,
+            btnOkOnPress: () {
+              os.statusSuccess.value = false;
+              uhs.changeMenuItem(2);
+              cc.getAllCheckout();
+              ss.session.value.isAdmin ? Get.toNamed('/admin-dashboard') : Get.toNamed('/user-dashboard');
+            },
+          ).show();
+        });
+      }
+    });
+
     return Stack(
       children: [
         SingleChildScrollView(
@@ -64,7 +160,7 @@ class _OrderPageState extends State<OrderPage> {
                 Obx(
                   () {
                     if (os.dataOrder.value.data.isEmpty) {
-                      SizedBox(
+                      return SizedBox(
                         height: 500,
                         width: double.infinity,
                         child: Center(

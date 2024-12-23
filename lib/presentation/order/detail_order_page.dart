@@ -16,6 +16,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../global_utility/functionality.dart';
+import '../../models/login_model.dart';
 
 class DetailOrderPage extends StatefulWidget {
   final CartResponse cartResponse;
@@ -87,10 +88,10 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
 
           if (result == 'finish') {
             oState.statusSuccess.value = true;
-          } else if (result == 'error') {
-            oState.statusError.value = true;
-          } else {
+          } else if (result == 'unfinish') {
             oState.statusUnfinish.value = true;
+          } else {
+            oState.statusError.value = true;
           }
         }
       },
@@ -233,12 +234,22 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
               onTap: () {
                 pc.createPayment(widget.cartResponse.id!);
                 cS.data.value = CartResponse(
+                  id: 0,
+                  items: List.empty(),
+                  createdAt: DateTime(0),
+                  updatedAt: DateTime(0),
+                  deletedAt: DateTime(0),
+                  userId: 0,
+                  account: LoginModel(
                     id: 0,
-                    items: List.empty(),
+                    name: '',
+                    email: '',
+                    phoneNumber: '',
+                    role: '',
                     createdAt: DateTime(0),
                     updatedAt: DateTime(0),
-                    deletedAt: DateTime(0),
-                    userId: 0);
+                  ),
+                );
               },
               child: Container(
                 decoration: BoxDecoration(

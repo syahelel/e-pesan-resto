@@ -7,10 +7,9 @@ class UserHomeState extends GetxController {
   var categoryItem = 1.obs;
   var fullProduct = <ProductModel>[].obs;
   var displayedProduct = <ProductModel>[].obs;
+  var displayedProductAdmin = <ProductModel>[].obs;
 
   var selectedItem = 0.obs;
-
-
 
   void changeMenuItem(int id) {
     menuItem.value = id;
@@ -33,6 +32,16 @@ class UserHomeState extends GetxController {
               value.name.toLowerCase().contains(
                     query.toLowerCase(),
                   ),
+        )
+        .toList();
+  }
+
+  void onMenuSearchAdmin(String q) {
+    displayedProductAdmin.value = fullProduct
+        .where(
+          (value) => value.name.toLowerCase().contains(
+                q.toLowerCase(),
+              ),
         )
         .toList();
   }

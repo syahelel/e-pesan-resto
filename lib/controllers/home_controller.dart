@@ -29,19 +29,17 @@ class HomeController {
 
         // Update on state
         userHomeState.fullProduct.value = result.data;
+        userHomeState.displayedProductAdmin.value = result.data;
         userHomeState.displayedProduct.value = result.data.where((value) => value.productTypesId == 1).toList();
         globalState.statusError.value = false;
         globalState.isLoading.value = false;
-        globalState.statusSuccess.value = true;
-        
-        
       } catch (e) {
         globalState.statusError.value = true;
-        globalState.isLoading.value = false;
+        globalState.isLoading.value = true;
         globalState.errorMessage.value = e.toString();
       }
     } else {
-      globalState.isLoading.value = false;
+      globalState.isLoading.value = true;
       globalState.statusError.value = true;
       globalState.errorMessage.value = 'Tidak ada koneksi internet';
     }

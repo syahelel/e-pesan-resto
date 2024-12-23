@@ -46,8 +46,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-          body: WebViewWidget(
-            controller: controller,
+          body: SafeArea(
+            child: WebViewWidget(
+              controller: controller,
+            ),
           ),
       ),
     );

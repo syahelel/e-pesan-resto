@@ -1,4 +1,5 @@
 import 'package:e_pesan_resto/global_utility/constant.dart';
+import 'package:e_pesan_resto/global_utility/functionality.dart';
 import 'package:e_pesan_resto/models/cart_model.dart';
 import 'package:e_pesan_resto/theme/font_theme.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ class OrderDetailTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Row(
           children: [
@@ -34,7 +35,9 @@ class OrderDetailTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      cart.productable?.productTypesId == 1  ? 'Makanan' : 'Minuman',
+                      cart.productable?.productTypesId == 1
+                          ? 'Makanan'
+                          : 'Minuman',
                       style: bold14,
                     ),
                     Text(
@@ -54,6 +57,19 @@ class OrderDetailTile extends StatelessWidget {
             ),
           ],
         ),
+        Column(
+          children: [
+            Text(
+              'Harga satuan',
+              style: regular14,
+            ),
+            const SizedBox(height: 10,),
+            Text(
+              cart.productable!.price.toIDR(),
+              style: bold14,
+            )
+          ],
+        )
       ],
     );
   }
